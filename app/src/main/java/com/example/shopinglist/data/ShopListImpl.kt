@@ -1,14 +1,25 @@
 package com.example.shopinglist.data
 
 import android.system.Os.remove
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.domain.ShopListRepository
 
 object ShopListImpl : ShopListRepository {
 
+    private val shopListLD = MutableLiveData<List<ShopItem>>()
     private val shopList = mutableListOf<ShopItem>()
 
     private var autoDefinitionId = 0
+
+    //Блок для порверки
+    init {
+        for (i in 0 until 10) {
+            val item = ShopItem("NAME $i", i, true)
+            addShopItem(item)
+        }
+    }
 
     override fun addShopItem(shopItem: ShopItem) {
         if (shopItem.id == ShopItem.Unknown_ID) {
@@ -16,10 +27,12 @@ object ShopListImpl : ShopListRepository {
         }
 
         shopList.add(shopItem)
+        updateList()
     }
 
     override fun deleteItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
+        updateList()
     }
 
     override fun editShopList(shopItem: ShopItem) {
@@ -32,7 +45,11 @@ object ShopListImpl : ShopListRepository {
         return shopList.find { it.id == shopItemId } ?: throw RuntimeException("NO MATCH BY ID")
     }
 
-    override fun getShopList(): List<ShopItem> {
-        return shopList.toList()
+    override fun getShopList(): LiveData<List<ShopItem>> {
+        return shopListLD
+    }
+
+    private fun updateList(){
+        shopListLD.value = shopList.toList()
     }
 }
