@@ -9,7 +9,7 @@ import com.example.shopinglist.domain.ShopListRepository
 object ShopListImpl : ShopListRepository {
 
     private val shopListLD = MutableLiveData<List<ShopItem>>()
-    private val shopList = mutableListOf<ShopItem>()
+    private val shopList = sortedSetOf<ShopItem>({t1 , t2 -> t1.id.compareTo(t2.id)})
 
     private var autoDefinitionId = 0
 
@@ -27,11 +27,13 @@ object ShopListImpl : ShopListRepository {
         }
 
         shopList.add(shopItem)
+        updateList()
 
     }
 
     override fun deleteItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
+        updateList()
     }
 
     override fun editShopList(shopItem: ShopItem) {
