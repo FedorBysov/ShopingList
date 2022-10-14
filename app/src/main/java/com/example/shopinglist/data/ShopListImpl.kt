@@ -27,18 +27,17 @@ object ShopListImpl : ShopListRepository {
         }
 
         shopList.add(shopItem)
-        updateList()
+
     }
 
     override fun deleteItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
-        updateList()
     }
 
     override fun editShopList(shopItem: ShopItem) {
         val newElement = getShopItem(shopItem.id)
         shopList.remove(newElement)
-        addShopItem(newElement)
+        addShopItem(shopItem)
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
