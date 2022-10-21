@@ -1,10 +1,10 @@
 package com.example.shopinglist.data
 
-import android.system.Os.remove
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.domain.ShopListRepository
+
 
 object ShopListImpl : ShopListRepository {
 
@@ -15,8 +15,8 @@ object ShopListImpl : ShopListRepository {
 
     //Блок для порверки
     init {
-        for (i in 0 until 10) {
-            val item = ShopItem("NAME $i", i, true)
+        for (i in 0 until 1000) {
+            val item = ShopItem("NAME $i", i, Math.random() > 0.5)
             addShopItem(item)
         }
     }

@@ -7,26 +7,25 @@
     tools:context=".presentation.MainActivity">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-    <LinearLayout
-        android:id="@+id/llShopList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    </ScrollView>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/llShopList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </ScrollView>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
