@@ -18,12 +18,14 @@
             android:id="@+id/textNoteTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text = "IPHONE"
+            android:fontFamily="sans-serif"
+
+            android:padding="16dp"
             android:textColor="#DCD5D5"
             android:textSize="24sp"
-            android:padding="16dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            tools:text="IPHONE" />
 
         <TextView
             android:id="@+id/countTV"
