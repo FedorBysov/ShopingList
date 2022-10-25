@@ -80,7 +80,7 @@ class ShopItemViewModel : ViewModel() {
             _errorInputCount.value = true
             result = false
         }
-        return false
+        return result
     }
 
     fun resetInputName() {

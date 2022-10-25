@@ -69,20 +69,20 @@ class ShopItemActivity : AppCompatActivity() {
         }
         viewModel.errorInputCount.observe(this){
             val message = if (it){
-                "invalid count"
+                getString(R.string.error_input_name)
             }else{
-                0
+                null
             }
-            tilCount.error = message.toString()
+            tilCount.error = message
         }
 
         viewModel.errorInputName.observe(this){
             val message = if (it){
-                "invalid name"
+                getString(R.string.error_input_count)
             }else{
-                0
+                null
             }
-            tilName.error = message.toString()
+            tilName.error = message
         }
 
         viewModel.shouldCloseScreen.observe(this){
