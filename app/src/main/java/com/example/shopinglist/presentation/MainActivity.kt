@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.databinding.ActivityMainBinding
-import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.presentation.adapter.AdapterMainActivity
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +23,19 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
+        val buttonAddItem = binding.btnAdd
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentShopItemActivity(this)
+            startActivity(intent)
+        }
+
         setupAdapter()
         setupLongClick()
 
         setupClick()
 
         setupItemTouchHelper()
+
 
         viewModel.shopList.observe(this) {
             Log.d("TEST_LOADING_LIVE_DATA", "${it.toString()}")
@@ -77,6 +83,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupClick() {
         mainAdapter.onShopItemCoinCliClickListener = {
             Log.d("onShopItemCoinCliClick", " ${it.toString()}")
+            val intent = ShopItemActivity.editIntentShopItemActivity(this, it.id)
+            startActivity(intent)
         }
     }
 

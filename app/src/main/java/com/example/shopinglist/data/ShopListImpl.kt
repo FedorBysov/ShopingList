@@ -15,7 +15,7 @@ object ShopListImpl : ShopListRepository {
 
     //Блок для порверки
     init {
-        for (i in 0 until 1000) {
+        for (i in 0 until 10) {
             val item = ShopItem("NAME $i", i, Math.random() > 0.5)
             addShopItem(item)
         }
@@ -52,4 +52,8 @@ object ShopListImpl : ShopListRepository {
     private fun updateList(){
         shopListLD.value = shopList.toList()
     }
+
+
+
+
 }
