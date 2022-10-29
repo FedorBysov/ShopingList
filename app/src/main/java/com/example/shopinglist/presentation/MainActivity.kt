@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity() {
 
         val buttonAddItem = binding.btnAdd
         buttonAddItem.setOnClickListener {
-//            if (isOnePaneMode()) {
+            if (isOnePaneMode()) {
                 val intent = ShopItemActivity.newIntentShopItemActivity(this)
+//                             ShopItemActivity.newIntentShopItemActivity(this)
                 startActivity(intent)
-//            }else{
-//                launchFragment(ShopItemFragment.newIntentAddFragment())
-//            }
+            }else{
+                launchFragment(ShopItemFragment.newIntentAddFragment())
+            }
         }
 
         setupAdapter()
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .add(R.id.shop_item_fragment, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .addToBackStack(null)
             .commit()
     }
