@@ -8,7 +8,7 @@ import com.example.shopinglist.R
 import com.example.shopinglist.databinding.ActivityShopItemBinding
 import com.example.shopinglist.domain.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(),  ShopItemFragment.OnEditingFinishedListener {
 
 
 
@@ -83,5 +83,9 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
             return intent
         }
+    }
+
+    override fun finishEditing() {
+        finish()
     }
 }

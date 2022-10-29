@@ -2,6 +2,7 @@ package com.example.shopinglist.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -10,14 +11,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.R
 import com.example.shopinglist.databinding.ActivityMainBinding
+import com.example.shopinglist.domain.ShopListRepository
 import com.example.shopinglist.presentation.adapter.AdapterMainActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var mainAdapter: AdapterMainActivity
-//    private lateinit var linearLayout: LinearLayout
 
     private var shopItemContainer: FragmentContainerView? = null
 
@@ -27,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         shopItemContainer = binding.shopItemContainer
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
 
 
         val buttonAddItem = binding.btnAdd
@@ -43,9 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         setupAdapter()
         setupLongClick()
-
         setupClick()
-
         setupItemTouchHelper()
 
 
@@ -54,6 +52,11 @@ class MainActivity : AppCompatActivity() {
             mainAdapter.submitList(it)
         }
 
+    }
+
+    override fun finishEditing() {
+        Toast.makeText(this@MainActivity, "Successful!!!", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     private fun isOnePaneMode():Boolean{
@@ -124,25 +127,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-//    fun showList(list: List<ShopItem>) {
-//        binding.llShopList.removeAllViews()
-//        for (shopItem in list) {
-//            val layoutId = if (shopItem.enabled) {
-//                R.layout.item_note_info
-//            } else {
-//                R.layout.item_hind_note_info
-//            }
-//            val view = LayoutInflater.from(this).inflate(layoutId, linearLayout, false)
-//            val text = view.findViewById<TextView>(R.id.textNoteTV)
-//            val count = view.findViewById<TextView>(R.id.countTV)
-//            count.text = shopItem.count.toString()
-//            text.text = shopItem.name
-//            view.setOnLongClickListener {
-//                viewModel.changeEnabledList(shopItem)
-//                true
-//            }
-//            binding.llShopList.addView(view)
-//
-//        }
-//    }
+
+
 }
