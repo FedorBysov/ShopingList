@@ -1,5 +1,6 @@
 package com.example.shopinglist.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class ShopItemFragment : Fragment() {
 
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var viewModel: ShopItemViewModel
     private var _binding: FragmentShopItemBinding? = null
@@ -32,6 +34,16 @@ class ShopItemFragment : Fragment() {
     private lateinit var etName: EditText
     private lateinit var etCount: EditText
     private lateinit var buttonSave: Button
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity need implement onEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +115,7 @@ class ShopItemFragment : Fragment() {
         }
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.finishEditing()
         }
 
     }
@@ -139,7 +151,7 @@ class ShopItemFragment : Fragment() {
             if (!args.containsKey(EXTRA_SHOP_ITEM_ID)) {
                 throw RuntimeException("Param Shop item id is absent")
             }
-            shopItemId = args.getInt(EXTRA_SHOP_ITEM_ID,ShopItem.Unknown_ID)
+            shopItemId = args.getInt(EXTRA_SHOP_ITEM_ID, ShopItem.Unknown_ID)
 
         }
 
@@ -154,6 +166,10 @@ class ShopItemFragment : Fragment() {
         buttonSave = binding.btnSave
     }
 
+    interface OnEditingFinishedListener {
+        fun finishEditing()
+    }
+
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
@@ -163,11 +179,10 @@ class ShopItemFragment : Fragment() {
         private const val MODE_UNKNOWN = ""
 
 
-
         fun newIntentAddFragment(): ShopItemFragment {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
-                    putString(EXTRA_SCREEN_MODE,MODE_ADD)
+                    putString(EXTRA_SCREEN_MODE, MODE_ADD)
                 }
             }
         }
@@ -175,7 +190,7 @@ class ShopItemFragment : Fragment() {
         fun intentEditFragment(shopItemId: Int): ShopItemFragment {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
-                    putString(EXTRA_SCREEN_MODE,MODE_EDIT)
+                    putString(EXTRA_SCREEN_MODE, MODE_EDIT)
                     putInt(EXTRA_SHOP_ITEM_ID, shopItemId)
                 }
             }
