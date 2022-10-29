@@ -33,12 +33,16 @@ class ShopItemFragment : Fragment() {
     private lateinit var etCount: EditText
     private lateinit var buttonSave: Button
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parserMetod()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentShopItemBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -46,10 +50,8 @@ class ShopItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parserMetod()
 
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
-
         initViews()
 
         etName.addTextChangedListener(object : TextWatcher {
@@ -160,20 +162,9 @@ class ShopItemFragment : Fragment() {
 
         private const val MODE_UNKNOWN = ""
 
-//        fun newIntentShopItemActivity(context: Context): Intent {
-//            val intent = Intent(context, ShopItemActivity::class.java)
-//            intent.putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
-//            return intent
-//        }
-//
-//        fun editIntentShopItemActivity(context: Context, shopItemId: Int): Intent {
-//            val intent = Intent(context, ShopItemActivity::class.java)
-//            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
-//            intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
-//            return intent
-//        }
 
-        fun newIntentAddFragment(): Fragment {
+
+        fun newIntentAddFragment(): ShopItemFragment {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
                     putString(EXTRA_SCREEN_MODE,MODE_ADD)
@@ -181,7 +172,7 @@ class ShopItemFragment : Fragment() {
             }
         }
 
-        fun intentEditFragment(shopItemId: Int): Fragment {
+        fun intentEditFragment(shopItemId: Int): ShopItemFragment {
             return ShopItemFragment().apply {
                 arguments = Bundle().apply {
                     putString(EXTRA_SCREEN_MODE,MODE_EDIT)
