@@ -1,7 +1,5 @@
 package com.example.shopinglist.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,28 +15,17 @@ import com.example.shopinglist.databinding.FragmentShopItemBinding
 import com.example.shopinglist.domain.ShopItem
 import com.google.android.material.textfield.TextInputLayout
 
-//interface FedyaBissov {
-//   fun fedyaDelaetPost(data: ContactsContract.Contacts.Data): String
-//   fun fedyaGotovitVMultivarke()
-//}
 
-class ShopItemFragment(
-    private val shopItemId: Int = ShopItem.Unknown_ID.toString(),
-    private val screenMode: String = MODE_UNKNOWN
-) : Fragment() {
+class ShopItemFragment : Fragment() {
 
-//    override fun fedyaDelaetPost(data: ContactsContract.Contacts.Data): String {
-//        return "jopa"
-//    }
-//    override fun fedyaGotovitVMultivarke(){
-//
-//    }
 
     private lateinit var viewModel: ShopItemViewModel
     private var _binding: FragmentShopItemBinding? = null
     private val binding
         get() = _binding!!
 
+    private var screenMode: String = MODE_UNKNOWN
+    private var shopItemId: Int = ShopItem.Unknown_ID
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -52,7 +39,7 @@ class ShopItemFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentShopItemBinding.inflate(inflater, container, false)
+        _binding = FragmentShopItemBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -114,12 +101,12 @@ class ShopItemFragment(
         }
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            viewModel.finishWork() //TODO("Проверить работу")
+            activity?.onBackPressed()
         }
 
     }
 
-    private fun launchEmdit() {
+    private fun launchEdit() {
         viewModel.getShopItem(shopItemId)
         viewModel.shopItem.observe(viewLifecycleOwner) {
             etName.setText(it.name)
@@ -137,16 +124,25 @@ class ShopItemFragment(
     }
 
     private fun parserMetod() {
-        if (screenMode != MODE_ADD && screenMode != MODE_EDIT) {
+        val args = requireArguments()
+        if (!args.containsKey(EXTRA_SCREEN_MODE)) {
             throw RuntimeException("Param Screen Mode is Absent")
         }
-        if (screenMode == MODE_EDIT && shopItemId == ShopItem.Unknown_ID) {
-            if (!requireActivity().intent.hasExtra(EXTRA_SHOP_ITEM_ID)) {
+        val mode = args.getString(EXTRA_SCREEN_MODE)
+        if (mode != MODE_EDIT && mode != MODE_ADD) {
+            throw RuntimeException("UNKNOWN screen $mode")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!args.containsKey(EXTRA_SHOP_ITEM_ID)) {
                 throw RuntimeException("Param Shop item id is absent")
             }
+            shopItemId = args.getInt(EXTRA_SHOP_ITEM_ID,ShopItem.Unknown_ID)
+
         }
 
     }
+
 
     private fun initViews() {
         tilName = binding.tilName
@@ -164,17 +160,34 @@ class ShopItemFragment(
 
         private const val MODE_UNKNOWN = ""
 
-        fun newIntentShopItemActivity(context: Context): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
-            return intent
+//        fun newIntentShopItemActivity(context: Context): Intent {
+//            val intent = Intent(context, ShopItemActivity::class.java)
+//            intent.putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
+//            return intent
+//        }
+//
+//        fun editIntentShopItemActivity(context: Context, shopItemId: Int): Intent {
+//            val intent = Intent(context, ShopItemActivity::class.java)
+//            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
+//            intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
+//            return intent
+//        }
+
+        fun newIntentAddFragment(): Fragment {
+            return ShopItemFragment().apply {
+                arguments = Bundle().apply {
+                    putString(EXTRA_SCREEN_MODE,MODE_ADD)
+                }
+            }
         }
 
-        fun editIntentShopItemActivity(context: Context, shopItemId: Int): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
-            intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
-            return intent
+        fun intentEditFragment(shopItemId: Int): Fragment {
+            return ShopItemFragment().apply {
+                arguments = Bundle().apply {
+                    putString(EXTRA_SCREEN_MODE,MODE_EDIT)
+                    putInt(EXTRA_SHOP_ITEM_ID, shopItemId)
+                }
+            }
         }
     }
 
