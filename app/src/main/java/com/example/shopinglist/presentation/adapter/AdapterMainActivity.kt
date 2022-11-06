@@ -11,13 +11,7 @@ import com.example.shopinglist.presentation.ShopItemDiffCallBack
 class AdapterMainActivity : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallBack()) {
 
     var count = 0
-//    var listItem: List<ShopItem> = listOf()
-//        set(value) {
-//            val callback = ShopListDiffUtilCallBack(listItem, value)
-//            val diffResult =DiffUtil.calculateDiff(callback)
-//            diffResult.dispatchUpdatesTo(this)
-//            field = value
-//        }
+
 
     var onShopItemCoinLongCliClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemCoinCliClickListener: ((ShopItem) -> Unit)? = null
@@ -48,9 +42,7 @@ class AdapterMainActivity : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDi
             itemView.setOnClickListener {
                 onShopItemCoinCliClickListener?.invoke(shopItem)
             }
-            //            itemView.setOnClickListener {
-//                onCoinClickListener?.OnCoinClick(coin)
-//            }
+
         }
     }
 
@@ -61,19 +53,7 @@ class AdapterMainActivity : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDi
         } else {
             DISABLED_VIEW
         }
-//        return super.getItemViewType(position)
     }
-
-//    override fun onViewRecycled(holder: MainActivityHolder) {
-//        super.onViewRecycled(holder)
-//        holder.text.text = ""
-//        holder.count.text = ""
-//    }
-
-
-//    interface OnShopItemLongCoinCliClickListener{
-//        fun onShopItemCoinClick(shopItem: ShopItem)
-//    }
 
     companion object {
         const val ENABLED_VIEW = 100

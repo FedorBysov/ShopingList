@@ -1,5 +1,6 @@
 package com.example.shopinglist.domain
 
+
 data class ShopItem(
 
     val name: String,
@@ -8,6 +9,6 @@ data class ShopItem(
     var id: Int = Unknown_ID
 ){
     companion object{
-        const val Unknown_ID = -1
+        const val Unknown_ID = 0
     }
 }

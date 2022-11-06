@@ -6,14 +6,14 @@ interface ShopListRepository {
 
     //MainActivity
 
-    fun addShopItem(shopItem: ShopItem)
+    suspend fun addShopItem(shopItem: ShopItem)
 
-    fun deleteItem(shopItem: ShopItem)
+    suspend fun deleteItem(shopItem: ShopItem)
 
-    fun editShopList(shopItem: ShopItem)
+    suspend fun editShopList(shopItem: ShopItem)
 
-    fun getShopItem(shopItemId: Int): ShopItem
+    suspend fun getShopItem(shopItemId: Int): ShopItem
 
-    fun getShopList(): LiveData<List<ShopItem>>
+     fun getShopList(): LiveData<List<ShopItem>>
 
 }
