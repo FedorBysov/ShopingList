@@ -4,17 +4,20 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.shopinglist.data.db.AppDataBase
+import com.example.shopinglist.data.db.ShopListDao
 import com.example.shopinglist.data.db.ShopListMapper
 import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.domain.ShopListRepository
+import javax.inject.Inject
 
 
-class ShopListImpl(
-    application: Application
+class ShopListImpl @Inject constructor(
+    private val shopListDao: ShopListDao,
+    private val mapper: ShopListMapper
 ) : ShopListRepository {
 
-    private val shopListDao = AppDataBase.getInstance(application).shopListDao()
-    private val mapper = ShopListMapper()
+//    private val shopListDao = AppDataBase.getInstance(application).shopListDao()
+//    private val mapper = ShopListMapper()
 
 
     override suspend fun addShopItem(shopItem: ShopItem) {

@@ -13,6 +13,7 @@ import com.example.shopinglist.R
 import com.example.shopinglist.databinding.ActivityMainBinding
 import com.example.shopinglist.domain.ShopListRepository
 import com.example.shopinglist.presentation.adapter.AdapterMainActivity
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
@@ -20,14 +21,23 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     private lateinit var viewModel: MainViewModel
     private lateinit var mainAdapter: AdapterMainActivity
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy{
+        (application as ShopApplication).component
+    }
+
     private var shopItemContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         shopItemContainer = binding.shopItemContainer
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
 
         val buttonAddItem = binding.btnAdd
